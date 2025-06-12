@@ -3,9 +3,15 @@ const express = require('express');
 const app = express();
 const authRoute = require('./routes/auth');
 const User = require('./models/Users')
-const sequelize = require('./config/db')
+const sequelize = require('./config/db');
+const { session } = require('passport');
+const passport = require('passport');
 
 app.use(express.json());
+
+app.use(session({secret: 'fincore', resave: false, saveUninitialized: true }));
+app.user(passport.initialize());
+app.use(passport.session());
 
 //Routes
 app.use('/api/auth', authRoute);
