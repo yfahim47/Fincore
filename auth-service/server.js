@@ -16,6 +16,7 @@ const limiter = rateLimit({
 })
 
 app.use(limiter);
+require('./passport/googleStrategy');
 
 app.use(express.json());
 
