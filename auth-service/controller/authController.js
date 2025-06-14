@@ -42,8 +42,6 @@ exports.login = async (req, res) => {
 
   try{
     const { username, password } = req.body;
-    console.log(username);
-    
 
   if (!username || !password) {
     return res.status(400).json({ message: 'Username and password are required.' });
@@ -64,7 +62,7 @@ exports.login = async (req, res) => {
   const token = jwt.sign(
     { id: user.id },
     process.env.JWT_SECRET,
-    { expiresIn: '1h' }
+    { expiresin: '1h' }
   )
 
   return res.status(200).json({token});
