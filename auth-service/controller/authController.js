@@ -35,3 +35,37 @@ exports.register = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+exports.login = async (req, res) => {
+
+  try{
+    const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required.' });
+  }
+
+  const user = await User.findOne({where:{username}});
+
+  if(!user){
+    res.status(400).json({message:"User Doesn't exist!"});
+  }
+
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  if(!isPasswordValid){
+    res.status(400).json({message:"Incorrect username or password!"});
+  }
+
+  const token = jwt.sign(
+    { id: user.id },
+    process.env.JWT_SECRET,
+    { expiresin: '1h' }
+  )
+
+  return res.status(200).json({token});
+}catch (err) {
+    console.error('Login error:', err);
+    return res.status(500).json({ message: 'Something went wrong!' });
+  }
+}
