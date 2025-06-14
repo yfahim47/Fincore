@@ -3,9 +3,47 @@ const router = express.Router();
 const authController = require('../controller/authController');
 const passport = require('passport');
 const jwt = require('jsonwebtoken')
+const { body, validationResult } = require('express-validator');
 
-router.post('/register', authController.register);
+router.post('/register',
+    [
+        body('username').notEmpty().withMessage('Username is reqired'),
+        body('email').notEmpty().withMessage('Invalid Email'),
+        body('password')
+            .isLength({min:6})
+            .withMessage('Password must be 6 characters')
+    ],
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            res.status(400).json({errors:errors.array()[0].msg})
+        }
+        next();
+    },
+     authController.register);
 
+router.post('/login',
+    [
+        body('username').notEmpty().withMessage('Usrename is required'),
+        body('password').notEmpty().withMessage('Password is required')
+    ],
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if(!errors.isEmpty()){
+            res.status(400).json({errors:errors.array()[0].msg});
+        }
+        next();
+    },
+    authController.login);
+
+
+// Google Signup
+router.get('/google', 
+    passport.authenticate('google', {scope:['profile', 'email']}));
+
+
+
+// Google Callback
 router.post('/login', authController.login);
 
 router.get('/google', 

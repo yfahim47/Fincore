@@ -6,6 +6,16 @@ const User = require('./models/Users')
 const sequelize = require('./config/db');
 const session = require('express-session');
 const passport = require('passport');
+const rateLimit = require('express-rate-limit');
+require('./passport/googleStrategy');
+
+const limiter = rateLimit({
+  window: 15 * 60 * 1000,
+  max: 100,
+  message: ' Too many requests !'
+})
+
+app.use(limiter);
 require('./passport/googleStrategy');
 
 app.use(express.json());
