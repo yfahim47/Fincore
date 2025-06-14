@@ -14,13 +14,9 @@
     "bcrypt": "^6.0.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-<<<<<<< HEAD
     "express-rate-limit": "^7.5.0",
     "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
-=======
-    "express-session": "^1.18.1",
->>>>>>> 48e3b3e038ec81032da143f851cff5c8b37f242c
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.1",
     "passport": "^0.7.0",
