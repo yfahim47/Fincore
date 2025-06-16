@@ -36,16 +36,6 @@ router.post('/login',
     },
     authController.login);
 
-
-// Google Signup
-router.get('/google', 
-    passport.authenticate('google', {scope:['profile', 'email']}));
-
-
-
-// Google Callback
-router.post('/login', authController.login);
-
 router.get('/google', 
     passport.authenticate('google', {scope:['profile', 'email']}));
 
@@ -57,4 +47,5 @@ router.get('/google/callback',
     res.json({ token, message: 'Google Login Successful' });
   }
 );
+
 module.exports = router;

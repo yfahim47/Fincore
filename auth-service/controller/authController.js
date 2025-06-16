@@ -4,10 +4,10 @@ const jwt = require('jsonwebtoken')
 
 
 exports.register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
 
   // Basic validation
-  if (!username || !email || !password) {
+  if (!username || !email || !password || !role) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
@@ -25,12 +25,14 @@ exports.register = async (req, res) => {
     const user = await User.create({
       username,
       email,
-      password: hashedPassword
+      password: hashedPassword,
+      role: role
+
     });
 
     res.status(201).json({
       message: 'User registered successfully',
-      user: { id: user.id, username: user.username, email: user.email }
+      user: { id: user.id, username: user.username, email: user.email, role : user.role }
     });
   } catch (err) {
     console.error(err);
@@ -60,9 +62,9 @@ exports.login = async (req, res) => {
   }
 
   const token = jwt.sign(
-    { id: user.id },
+    { id: user.id, role: user.role },
     process.env.JWT_SECRET,
-    { expiresin: '1h' }
+    { expiresIn: '1h' }
   )
 
   return res.status(200).json({token});
