@@ -8,6 +8,7 @@ const session = require('express-session');
 const passport = require('passport');
 const rateLimit = require('express-rate-limit');
 require('./passport/googleStrategy');
+const userRoutes = require('./routes/userRoutes');
 
 const limiter = rateLimit({
   window: 15 * 60 * 1000,
@@ -26,6 +27,7 @@ app.use(passport.session());
 
 //Routes
 app.use('/api/auth', authRoute);
+app.use('/', userRoutes);
 
 sequelize.sync({alter: true})
   .then(() => {
