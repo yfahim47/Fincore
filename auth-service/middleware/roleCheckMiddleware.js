@@ -4,7 +4,7 @@ const checkRole = () => {
         if(req.user.role !== 'Admin' && req.user.role !== 'admin' ){
             return res.status(403).json({message:'Unauthorized user'});
         }else{
-            console.log("else");
+            console.log("else block");
         }
         next();
     }
