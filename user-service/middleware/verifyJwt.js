@@ -13,6 +13,6 @@ module.exports = function(req, res, next) {
         next();
     }
     catch (err) {
-    return res.status(403).json({ message: 'Invalid token' });
+      return res.status(403).json({ message: 'Invalid token' });
   }
 };
